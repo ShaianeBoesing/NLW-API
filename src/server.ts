@@ -1,15 +1,33 @@
-import Fastify from "fastify"
-import cors from '@fastify/cors'
-import { prisma } from './lib/prisma'
-import { appRoutes } from "./routes"
+import "express-async-errors";
+import express, { NextFunction } from "express";
 
-const app = Fastify()
+const app = express();
+const cors = require("cors");
+const routes = require("./routes");
+const bodyParser = require("body-parser");
 
-app.register(cors)
-app.register(appRoutes)
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  })
+);
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use("/", routes);
+app.use(
+  (
+    error: Error,
+    request: express.Request,
+    response: express.Response,
+    next: NextFunction
+  ) => {
+    return response.json({
+      status: "Error",
+      message: error.message,
+    });
+  }
+);
 
-app.listen({
-  port: 3333
-}).then(()=> {
-  console.log('HTTP server running on port 3333')
-})
+app.listen(3333, () => {
+  console.log("HTTP server running on port 3333...");
+});
