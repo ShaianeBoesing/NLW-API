@@ -55,6 +55,6 @@ export class UsersService {
       throw new Error(invalidUserMessage);
     }
 
-    //gerar token com JWT
+    //const token = sign({}, "3c42bae0-53ff-4067-b4dd-0c4c2cd2d6b7");
   }
 }
