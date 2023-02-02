@@ -35,8 +35,8 @@ export class UsersController {
 
     const userService = new UsersService();
 
-    const user = await userService.login({ username, password });
+    const token = await userService.login({ username, password });
 
-    res.send(200);
+    res.json({ token: token }).status(200);
   }
 }

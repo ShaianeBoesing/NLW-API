@@ -1,3 +1,4 @@
+import { isLoggedIn } from "./middleware/isLoggedIn";
 import { UsersController } from "./controllers/UsersController";
 import { HabitsControler } from "./controllers/HabitsController";
 import { DayController } from "./controllers/DayController";
@@ -11,9 +12,9 @@ const usersController = new UsersController();
 
 routes.post("/create", usersController.create);
 routes.post("/login", usersController.login);
-routes.post("/habits", habitsControler.createHabit);
-routes.get("/day", dayController.handle);
-routes.patch("/habits/:id/toggle", habitsControler.toggleHabit);
-routes.get("/summary", summaryController.generateSummary);
+routes.post("/habits", isLoggedIn, habitsControler.createHabit);
+routes.get("/day", isLoggedIn, dayController.handle);
+routes.patch("/habits/:id/toggle", isLoggedIn, habitsControler.toggleHabit);
+routes.get("/summary", isLoggedIn, summaryController.generateSummary);
 
 module.exports = routes;
